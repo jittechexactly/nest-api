@@ -1,14 +1,17 @@
 import { Body, Controller, Get } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import type { AuthResponse } from './interfaces/auth-response.interface';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
 export class AuthController {
+    constructor(private readonly authService: AuthService) { }
 
     @Get('login')
-    login(@Body() loginDto: LoginDto): AuthResponse {
+    async login(@Body() loginDto: LoginDto): Promise<AuthResponse> {
+        const response = await this.authService.login(loginDto);
         return {
-            accessToken: "hjdhdd",
+            accessToken: response,
             refreshToken: "sdjjsnds",
             tokenType: "Bearer",
             expiresIn: 900,
