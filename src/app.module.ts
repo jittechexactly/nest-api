@@ -8,6 +8,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { JsonOnlyValidationMiddleware } from './middleware/json-only-validation/json-only-validation.middleware';
 import { IndexModule } from './modules/web/index/index.module';
 import { ProductsModule } from './modules/web/products/products.module';
+import { AuthModule } from './modules/web/auth/auth.module';
 
 @Module({
   imports: [
