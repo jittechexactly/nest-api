@@ -6,7 +6,6 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UsersModule } from './modules/users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { JsonOnlyValidationMiddleware } from './middleware/json-only-validation/json-only-validation.middleware';
-import { IndexModule } from './modules/web/index/index.module';
 import { ProductsModule } from './modules/web/products/products.module';
 import { WebAuthModule } from './modules/web/auth/auth.module';
 
@@ -24,7 +23,6 @@ import { WebAuthModule } from './modules/web/auth/auth.module';
         rejectUnauthorized: false,
       },
     }),
-    IndexModule,
     ProductsModule,
     WebAuthModule,
   ],
