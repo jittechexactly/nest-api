@@ -1,4 +1,10 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Get } from '@nestjs/common';
 
-@Controller('auth')
-export class AuthController {}
+@Controller('web/auth')
+export class AuthController {
+
+    @Get('register')
+    register() {
+        return "Register Page running!";
+    }
+}
