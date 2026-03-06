@@ -5,13 +5,8 @@ import { RegisterDto } from 'src/modules/auth/dto/register.dto';
 @Injectable()
 export class UsersService {
 
-    // async createUser(registerDto: RegisterDto): Promise<User> {
-    //     return {
-    //         id: 1,
-    //         name: registerDto.name,
-    //         email: registerDto.email,
-    //         password: registerDto.password
-    //     }
-    // }
+    async createUser() {
+
+    }
 
 }
