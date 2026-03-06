@@ -1,8 +1,10 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
 import type { AuthResponse } from './interfaces/auth-response.interface';
 import { AuthService } from './auth.service';
 import { RegisterDto } from './dto/register.dto';
+import { RegisterResponse } from './interfaces/register-response.interface';
+import { EmailVerificationDto } from './dto/emailverification.dto';
 
 @Controller('api/v1/auth')
 export class AuthController {
@@ -21,9 +23,21 @@ export class AuthController {
     }
 
     @Post('register')
-    async register(@Body() registerDto: RegisterDto): Promise<AuthResponse> {
+    @HttpCode(201)
+    async register(@Body() registerDto: RegisterDto): Promise<RegisterResponse> {
         return {
             message: "Registration successful",
+            data: {
+                name: registerDto.name,
+                email: registerDto.email,
+            }
+        };
+    }
+
+    @Post('email-verification')
+    async emailVerification(@Body() emailVerificationDto: EmailVerificationDto): Promise<AuthResponse> {
+        return {
+            message: "Email verification successful",
             accessToken: "hsufsjf",
             refreshToken: "sdjjsnds",
             tokenType: "Bearer",

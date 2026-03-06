@@ -1,0 +1,60 @@
+<%- include('../../partials/addons/all-links', { title: 'Home' }) %>
+
+    <body>
+        <main class="bg-gray-100 flex items-center justify-center min-h-screen relative">
+            <a href="/" class="absolute top-5 left-5 bg-blue-500 px-5 py-2 text-white font-medium rounded shadow-md"><i
+                    class="ri-arrow-left-long-line me-2"></i>Back</a>
+            <div class="bg-white shadow-md rounded p-8 w-full max-w-md">
+
+                <div class="text-center mb-6">
+                    <h2 class="text-2xl font-bold text-gray-800">Verify Your Email</h2>
+                    <p class="text-gray-500 text-sm mt-2">
+                        Enter the 6-digit verification code sent to your email
+                    </p>
+                </div>
+
+                <form id="otpForm" class="space-y-6">
+
+                    <div class="flex justify-between gap-2">
+
+                        <input type="text" maxlength="1"
+                            class="w-12 h-12 otp-input text-center border border-gray-300 rounded text-xl outline-none">
+
+                        <input type="text" maxlength="1"
+                            class="w-12 h-12 otp-input text-center  border border-gray-300 rounded text-xl outline-none">
+
+                        <input type="text" maxlength="1"
+                            class="w-12 h-12 otp-input text-center  border border-gray-300 rounded text-xl outline-none">
+
+                        <input type="text" maxlength="1"
+                            class="w-12 h-12 otp-input text-center  border border-gray-300 rounded text-xl outline-none">
+
+                        <input type="text" maxlength="1"
+                            class="w-12 h-12 otp-input text-center  border border-gray-300 rounded text-xl outline-none">
+
+                        <input type="text" maxlength="1"
+                            class="w-12 h-12 otp-input text-center  border border-gray-300 rounded text-xl outline-none">
+
+                    </div>
+
+                    <button type="submit"
+                        class="w-full bg-blue-600 text-white cursor-pointer py-2 rounded hover:bg-blue-700 transition">
+                        Verify Code
+                    </button>
+
+                </form>
+
+                <!-- Resend -->
+                <div class="text-center mt-6 text-sm text-gray-500">
+                    Didn't receive the code?
+                    <a href="#" class="text-blue-600 hover:underline">Resend</a>
+                </div>
+
+            </div>
+            <%- include('../../partials/addons/common-js') %>
+                <%- include('../../partials/addons/js/email_view') %>
+                    <%- include('../../partials/footer') %>
+        </main>
+    </body>
+
+    </html>

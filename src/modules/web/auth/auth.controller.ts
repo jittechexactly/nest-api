@@ -10,4 +10,8 @@ export class AuthController {
     @Get('login')
     @Render('pages/auth/login')
     login() { }
+
+    @Get('email-verification')
+    @Render('pages/auth/email-verification')
+    emailVerification() { }
 }
