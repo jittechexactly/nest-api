@@ -1,8 +1,9 @@
 <%- include('../../partials/addons/all-links', { title: 'Home' }) %>
 
     <body>
-        <main class="bg-gray-100 flex items-center justify-center min-h-screen">
-
+        <main class="bg-gray-100 flex items-center justify-center min-h-screen relative">
+            <a href="/" class="absolute top-5 left-5 bg-blue-500 px-5 py-2 text-white font-medium rounded shadow-md"><i
+                    class="ri-arrow-left-long-line me-2"></i>Back</a>
             <div class="w-full max-w-md bg-white shadow-lg rounded p-8">
 
                 <h2 class="text-2xl font-bold text-center text-gray-800 mb-6">
@@ -47,7 +48,7 @@
                         class="text-blue-600 hover:underline">Register</a></p>
 
             </div>
-            <%- include('../../partials/addons/all-js') %>
+            <%- include('../../partials/addons/common-js') %>
                 <%- include('../../partials/footer') %>
         </main>
     </body>
