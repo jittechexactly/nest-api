@@ -6,4 +6,8 @@ export class AuthController {
     @Get('register')
     @Render('pages/auth/register')
     register() { }
+
+    @Get('login')
+    @Render('pages/auth/login')
+    login() { }
 }
