@@ -12,15 +12,14 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     AuthModule,
     UsersModule,
     TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'Matrix@2025',
-      database: 'nest-api',
-      entities: [],
+      type: 'postgres',
+      url: process.env.DATABASE_URL,
+      autoLoadEntities: true,
       synchronize: true,
-    }),
+      ssl: {
+        rejectUnauthorized: false,
+      },
+    })
   ],
   controllers: [AppController],
   providers: [AppService],
