@@ -27,6 +27,6 @@ import { JsonOnlyValidationMiddleware } from './middleware/json-only-validation/
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(JsonOnlyValidationMiddleware).forRoutes('*');
+    consumer.apply(JsonOnlyValidationMiddleware).forRoutes('api/*');
   }
 }
