@@ -5,6 +5,6 @@ export class AuthController {
 
     @Get('register')
     register() {
-        return "Register Page running!";
+        return "Register Page running! demo";
     }
 }
