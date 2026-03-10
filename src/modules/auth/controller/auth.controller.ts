@@ -12,14 +12,7 @@ export class AuthController {
 
     @Post('login')
     async login(@Body() loginDto: LoginDto): Promise<AuthResponse> {
-        const response = await this.authService.login(loginDto);
-        return {
-            message: "Login successful",
-            accessToken: response,
-            refreshToken: "sdjjsnds",
-            tokenType: "Bearer",
-            expiresIn: 900,
-        };
+        return this.authService.login(loginDto);
     }
 
     @Post('register')
