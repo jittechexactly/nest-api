@@ -1,5 +1,6 @@
 import { Controller, Get, Render } from '@nestjs/common';
 import { AppService } from '../service/app.service';
+import { Product } from 'src/modules/product/interfaces/product.interface';
 
 
 @Controller()
@@ -8,7 +9,7 @@ export class AppController {
 
   @Get()
   @Render('pages/index')
-  getHello(): { name: string } {
+  getHello(): { data: Product[] } {
     return this.appService.getHello();
   }
 }

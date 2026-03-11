@@ -8,6 +8,9 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { JsonOnlyValidationMiddleware } from './middleware/json-only-validation/json-only-validation.middleware';
 import { ProductsModule } from './modules/web/products/products.module';
 import { WebAuthModule } from './modules/web/auth/auth.module';
+import { ServeStaticModule } from '@nestjs/serve-static';
+import { join } from 'path';
+import { ProductModule } from './modules/product/product.module';
 
 @Module({
   imports: [
@@ -25,6 +28,11 @@ import { WebAuthModule } from './modules/web/auth/auth.module';
     }),
     ProductsModule,
     WebAuthModule,
+    ServeStaticModule.forRoot({
+      rootPath: join(__dirname, '..', 'public'),
+      serveRoot: '/public',
+    }),
+    ProductModule
   ],
   controllers: [AppController],
   providers: [AppService],
