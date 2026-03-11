@@ -23,14 +23,6 @@ export class AuthService implements IAuthService {
     }
 
     async login(loginDto: LoginDto): Promise<AuthResponse> {
-        const data = await this.userService.loginUser(loginDto);
-
-        return {
-            message: "Login Successful!",
-            accessToken: data.token,
-            refreshToken: data.refreshToken,
-            expiresIn: data.validity,
-            tokenType: "Bearer"
-        };
+        return await this.userService.loginUser(loginDto);
     }
 }

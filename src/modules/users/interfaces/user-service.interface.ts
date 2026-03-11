@@ -5,5 +5,5 @@ import { AuthResponse } from "src/modules/auth/interfaces/auth-response.interfac
 
 export interface UserServiceInterface {
     createUser(registerDto: RegisterDto): Promise<UserDto>;
-    loginUser(loginDto: LoginDto): Promise<AuthResponse>
+    loginUser(loginDto: LoginDto): Promise<AuthResponse>;
 }

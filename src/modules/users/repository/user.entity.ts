@@ -22,7 +22,7 @@ export class User {
     @Column({
         type: 'varchar',
         length: 255,
-        select: false
+        select: true
     })
     password: string;
 
