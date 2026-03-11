@@ -6,11 +6,9 @@
                 <section class="h-screen p-5 container mx-auto">
                     <div class="h-full flex flex-row w-full main-view-slider">
                         <% data.forEach(item=> { %>
-                            <div class="h-full w-full flex justify-center items-center">
+                            <div class="h-full w-full flex justify-center items-center pb-5">
                                 <div
-                                    class="flex flex-col md:p-0 p-5 items-center border border-gray-100 bg-neutral-primary-soft rounded overflow-hidden shadow-md w-full">
-                                    <img class="object-cover w-full rounded-base w-full md:h-90 h-100 mb-4 md:mb-0"
-                                        src="/public/images/main-bg.jpg" alt="">
+                                    class="flex flex-col md:p-0 p-5 items-center border border-gray-100 bg-neutral-primary-soft rounded overflow-hidden shadow-md w-full bg-[url(<%= item.img_url %>)] md:h-100 h-screen bg-center bg-cover">
                                     <div class="flex flex-col md:p-4 w-full">
                                         <h5 class="mb-2 text-2xl font-bold tracking-tight text-heading">
                                             <%= item.productName %>
