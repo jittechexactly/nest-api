@@ -5,6 +5,7 @@ import { UsersModule } from '../users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from '../users/repository/user.entity';
 import { JwtModule } from '@nestjs/jwt';
+import { ResponseModule } from '../response/response.module';
 
 @Module({
   controllers: [AuthController],
@@ -16,7 +17,8 @@ import { JwtModule } from '@nestjs/jwt';
       secret: process.env.JWT_SECRET || 'jeetweb2026',
       signOptions: { expiresIn: '7d' },
     }),
-    UsersModule
+    UsersModule,
+    ResponseModule
   ]
 })
 export class AuthModule { }

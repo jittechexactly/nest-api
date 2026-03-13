@@ -20,6 +20,20 @@ export class User {
     email: string;
 
     @Column({
+        type: 'int',
+        select: true,
+        default: null
+    })
+    emailOtp: number | null;
+
+    @Column({
+        type: 'timestamp',
+        select: true,
+        default: null
+    })
+    emailverificationDuration: Date | null;
+
+    @Column({
         type: 'varchar',
         length: 255,
         select: true
@@ -39,6 +53,13 @@ export class User {
         default: true
     })
     isActive: boolean;
+
+    @Column({
+        name: 'last_login_at',
+        type: 'timestamp',
+        default: null
+    })
+    lastLoginAt: Date | null
 
     @CreateDateColumn({
         name: 'createdAt'

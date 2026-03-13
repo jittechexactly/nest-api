@@ -1,17 +1,17 @@
 import { Body, Controller, HttpCode, Post } from '@nestjs/common';
 import { LoginDto } from '../dto/login.dto';
-import type { AuthResponse } from '../interfaces/auth-response.interface';
 import { AuthService } from '../service/auth.service';
 import { RegisterDto } from '../dto/register.dto';
 import { RegisterResponse } from '../interfaces/register-response.interface';
 import { EmailVerificationDto } from '../dto/emailverification.dto';
+import { ResponseDto } from 'src/modules/response/dto/response.dto';
 
 @Controller('api/v1/auth')
 export class AuthController {
     constructor(private readonly authService: AuthService) { }
 
     @Post('login')
-    async login(@Body() loginDto: LoginDto): Promise<AuthResponse> {
+    async login(@Body() loginDto: LoginDto): Promise<ResponseDto> {
         return this.authService.login(loginDto);
     }
 
@@ -21,13 +21,7 @@ export class AuthController {
     }
 
     @Post('email-verification')
-    async emailVerification(@Body() emailVerificationDto: EmailVerificationDto): Promise<AuthResponse> {
-        return {
-            message: "Email verification successful",
-            accessToken: "hsufsjf",
-            refreshToken: "sdjjsnds",
-            tokenType: "Bearer",
-            expiresIn: 900,
-        };
+    async emailVerification(@Body() emailVerificationDto: EmailVerificationDto): Promise<RegisterResponse> {
+        return this.authService.emailVerification(emailVerificationDto);
     }
 }

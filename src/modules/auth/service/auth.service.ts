@@ -1,28 +1,52 @@
 import { Injectable } from '@nestjs/common';
 import { IAuthService } from '../interfaces/auth-service.interface';
 import { RegisterDto } from '../dto/register.dto';
-import { RegisterResponse } from '../interfaces/register-response.interface';
 import { UsersService } from 'src/modules/users/service/users.service';
 import { LoginDto } from '../dto/login.dto';
 import { AuthResponse } from '../interfaces/auth-response.interface';
+import { Resend } from 'resend';
+import { EmailVerificationDto } from '../dto/emailverification.dto';
+import { ResponseService } from 'src/modules/response/service/response.service';
+import { ResponseDto } from 'src/modules/response/dto/response.dto';
 
 @Injectable()
 export class AuthService implements IAuthService {
-    constructor(private userService: UsersService) { }
+    private resend = new Resend(process.env.RESEND_API_KEY);
+    constructor(private userService: UsersService, private readonly responseService: ResponseService) { }
 
-    async register(registerDto: RegisterDto): Promise<RegisterResponse> {
+    async register(registerDto: RegisterDto): Promise<ResponseDto> {
         const user = await this.userService.createUser(registerDto);
 
-        return {
-            message: 'Registration successful',
-            data: {
-                name: user.name,
-                email: user.email,
-            },
-        };
+        await this.sendEmail(registerDto.email, registerDto.name, user.emailOtp);
+        const { id, name, email } = user;
+
+        return this.responseService.response(true, "Registration Successful!", { id, name, email });
     }
 
-    async login(loginDto: LoginDto): Promise<AuthResponse> {
+    async emailVerification(emailverificationDto: EmailVerificationDto): Promise<ResponseDto> {
+        const otpVerification = await this.userService.emailVerification(emailverificationDto);
+        if (otpVerification) {
+            return await this.userService.accessTokenGenerate(emailverificationDto);
+        }
+
+        return this.responseService.response(false, "Invalid OTP or expired!", {});
+    }
+
+    async login(loginDto: LoginDto): Promise<ResponseDto> {
         return await this.userService.loginUser(loginDto);
+    }
+
+    private async sendEmail(email: string, name: string, otp: number): Promise<void> {
+        const { error } = await this.resend.emails.send({
+            from: 'Acme <onboarding@resend.dev>',
+            to: ['jit.techexactly@gmail.com'],
+            subject: 'Welcome to Acme!',
+            html: `<h1>Welcome, ${name}!</h1><p>Your registration was successful. Your OTP is ${otp}</p>`,
+        });
+
+        if (error) {
+            console.error('Failed to send registration email:', error);
+        }
+
     }
 }

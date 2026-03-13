@@ -11,6 +11,7 @@ import { WebAuthModule } from './modules/web/auth/auth.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { ProductModule } from './modules/product/product.module';
+import { ResponseModule } from './modules/response/response.module';
 
 @Module({
   imports: [
@@ -32,7 +33,8 @@ import { ProductModule } from './modules/product/product.module';
       rootPath: join(__dirname, '..', 'public'),
       serveRoot: '/public',
     }),
-    ProductModule
+    ProductModule,
+    ResponseModule
   ],
   controllers: [AppController],
   providers: [AppService],
