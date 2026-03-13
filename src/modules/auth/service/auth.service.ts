@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { IAuthService } from '../interfaces/auth-service.interface';
 import { RegisterDto } from '../dto/register.dto';
 import { UsersService } from 'src/modules/users/service/users.service';
@@ -29,7 +29,10 @@ export class AuthService implements IAuthService {
             return await this.userService.accessTokenGenerate(emailverificationDto);
         }
 
-        return this.responseService.response(false, "Invalid OTP or expired!", {});
+        throw new HttpException(
+            this.responseService.response(false, "Invalid OTP or expired!", {}),
+            HttpStatus.UNAUTHORIZED
+        );
     }
 
     async login(loginDto: LoginDto): Promise<ResponseDto> {
