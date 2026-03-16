@@ -4,7 +4,7 @@ import { Product } from 'src/modules/product/interfaces/product.interface';
 @Injectable()
 export class AppService {
 
-  getHello(): { data: Product[] } {
+  getHello(): { data: any } {
   return {
     data: [
       {
