@@ -10,6 +10,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ResponseService } from 'src/modules/response/service/response.service';
 import { ResponseDto } from 'src/modules/response/dto/response.dto';
 import { EmailVerificationDto } from 'src/modules/auth/dto/emailverification.dto';
+import { Response } from 'express';
 
 @Injectable()
 export class UsersService implements UserServiceInterface {
@@ -47,7 +48,7 @@ export class UsersService implements UserServiceInterface {
         return this.userRepository.save(user);
     }
 
-    async loginUser(loginDto: LoginDto): Promise<ResponseDto> {
+    async loginUser(loginDto: LoginDto, res: Response): Promise<ResponseDto> {
         const user = await this.userRepository.findOne({
             where: { email: loginDto.email },
         });
@@ -75,10 +76,10 @@ export class UsersService implements UserServiceInterface {
             );
         }
 
-        return this.accessTokenGenerate(user);
+        return this.accessTokenGenerate(user, res);
     }
 
-    async accessTokenGenerate(userDto: any): Promise<ResponseDto> {
+    async accessTokenGenerate(userDto: any, res: Response): Promise<ResponseDto> {
         const payload = {
             sub: userDto.id,
             email: userDto.email,
@@ -88,12 +89,19 @@ export class UsersService implements UserServiceInterface {
             lastLoginAt: new Date()
         });
 
-        const access_token = await this.jwtService.signAsync(payload);
+        const access_token = this.generateAccessToken(payload);
+        const refresh_token = this.generateRefreshToken(payload);
+        
+        res.cookie('refresh_token', refresh_token, {
+            httpOnly: true,
+            secure: false,
+            sameSite: 'strict',
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+        });
 
         throw new HttpException(
             this.responseService.response(true, "Logged in successfully!", {
                 accessToken: access_token,
-                refreshToken: access_token,
                 tokenType: "Bearer",
                 expiresIn: 15
             }),
@@ -125,5 +133,17 @@ export class UsersService implements UserServiceInterface {
 
     async updateUser(target: any, data: Record<string, any>): Promise<void> {
         await this.userRepository.update(target, data);
+    }
+
+    private generateAccessToken(payload: object): string {
+        return this.jwtService.sign(payload, {
+            expiresIn: '30m',
+        });
+    }
+
+    private generateRefreshToken(payload: object): string {
+        return this.jwtService.sign(payload, {
+            expiresIn: '7d',
+        });
     }
 }

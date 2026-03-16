@@ -3,11 +3,11 @@ import { IAuthService } from '../interfaces/auth-service.interface';
 import { RegisterDto } from '../dto/register.dto';
 import { UsersService } from 'src/modules/users/service/users.service';
 import { LoginDto } from '../dto/login.dto';
-import { AuthResponse } from '../interfaces/auth-response.interface';
 import { Resend } from 'resend';
 import { EmailVerificationDto } from '../dto/emailverification.dto';
 import { ResponseService } from 'src/modules/response/service/response.service';
 import { ResponseDto } from 'src/modules/response/dto/response.dto';
+import { Response } from 'express';
 
 @Injectable()
 export class AuthService implements IAuthService {
@@ -23,10 +23,10 @@ export class AuthService implements IAuthService {
         return this.responseService.response(true, "Registration Successful!", { id, name, email });
     }
 
-    async emailVerification(emailverificationDto: EmailVerificationDto): Promise<ResponseDto> {
+    async emailVerification(emailverificationDto: EmailVerificationDto, res: Response): Promise<ResponseDto> {
         const otpVerification = await this.userService.emailVerification(emailverificationDto);
         if (otpVerification) {
-            return await this.userService.accessTokenGenerate(emailverificationDto);
+            return await this.userService.accessTokenGenerate(emailverificationDto, res);
         }
 
         throw new HttpException(
@@ -35,8 +35,8 @@ export class AuthService implements IAuthService {
         );
     }
 
-    async login(loginDto: LoginDto): Promise<ResponseDto> {
-        return await this.userService.loginUser(loginDto);
+    async login(loginDto: LoginDto, res: Response): Promise<ResponseDto> {
+        return await this.userService.loginUser(loginDto, res);
     }
 
     private async sendEmail(email: string, name: string, otp: number): Promise<void> {
