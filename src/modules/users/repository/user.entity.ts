@@ -1,4 +1,5 @@
 import { Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { UserRoleEnum } from "../enum/userRole.enum";
 
 @Entity()
 export class User {
@@ -60,6 +61,13 @@ export class User {
         default: null
     })
     lastLoginAt: Date | null
+
+    @Column({
+        type: 'enum',
+        enum: UserRoleEnum,
+        default: UserRoleEnum.USER,
+    })
+    role: UserRoleEnum;
 
     @CreateDateColumn({
         name: 'createdAt'

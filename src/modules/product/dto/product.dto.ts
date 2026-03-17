@@ -1,4 +1,5 @@
-import { IsString, IsNotEmpty, IsNumber, IsPositive, IsOptional, IsUrl, Min } from 'class-validator';
+import { IsString, IsNotEmpty, IsNumber, IsPositive, IsOptional, IsUrl, Min, IsEnum } from 'class-validator';
+import { ProductCategoryEnum } from '../enum/product.enum';
 
 export class CreateProductDto {
     @IsString()
@@ -17,9 +18,9 @@ export class CreateProductDto {
     @Min(0)
     stock: number;
 
-    @IsString()
+    @IsEnum(ProductCategoryEnum)
     @IsNotEmpty()
-    category: string;
+    category: ProductCategoryEnum;
 
     @IsUrl()
     @IsOptional()

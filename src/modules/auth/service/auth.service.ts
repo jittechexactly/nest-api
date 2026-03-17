@@ -24,9 +24,9 @@ export class AuthService implements IAuthService {
     }
 
     async emailVerification(emailverificationDto: EmailVerificationDto, res: Response): Promise<ResponseDto> {
-        const otpVerification = await this.userService.emailVerification(emailverificationDto);
-        if (otpVerification) {
-            return await this.userService.accessTokenGenerate(emailverificationDto, res);
+        const otpVerificationDetails = await this.userService.emailVerification(emailverificationDto);
+        if (otpVerificationDetails) {
+            return await this.userService.accessTokenGenerate(otpVerificationDetails, res);
         }
 
         throw new HttpException(
@@ -49,6 +49,10 @@ export class AuthService implements IAuthService {
 
         if (error) {
             console.error('Failed to send registration email:', error);
+            throw new HttpException(
+                this.responseService.response(false, "Something went wrong!", {}),
+                HttpStatus.BAD_REQUEST
+            );
         }
 
     }

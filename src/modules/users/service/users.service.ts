@@ -11,6 +11,7 @@ import { ResponseService } from 'src/modules/response/service/response.service';
 import { ResponseDto } from 'src/modules/response/dto/response.dto';
 import { EmailVerificationDto } from 'src/modules/auth/dto/emailverification.dto';
 import { Response } from 'express';
+import { UserRoleEnum } from '../enum/userRole.enum';
 
 @Injectable()
 export class UsersService implements UserServiceInterface {
@@ -29,7 +30,10 @@ export class UsersService implements UserServiceInterface {
         });
 
         if (existingUser) {
-            throw new ConflictException('User already exists');
+            throw new HttpException(
+                this.responseService.response(false, "User already exsist!", {}),
+                HttpStatus.CONFLICT
+            );
         }
         const hashedPassword = await bcrypt.hash(registerDto.password, 10);
         const otp = Math.floor(100000 + Math.random() * 900000);
@@ -42,7 +46,8 @@ export class UsersService implements UserServiceInterface {
             password: hashedPassword,
             isEmailVerified: false,
             isActive: true,
-            emailverificationDuration: verficationDuration
+            emailverificationDuration: verficationDuration,
+            role: UserRoleEnum.USER
         });
 
         return this.userRepository.save(user);
@@ -83,6 +88,7 @@ export class UsersService implements UserServiceInterface {
         const payload = {
             sub: userDto.id,
             email: userDto.email,
+            role: userDto.role
         };
 
         await this.updateUser(userDto.id, {
@@ -91,7 +97,7 @@ export class UsersService implements UserServiceInterface {
 
         const access_token = this.generateAccessToken(payload);
         const refresh_token = this.generateRefreshToken(payload);
-        
+
         res.cookie('refresh_token', refresh_token, {
             httpOnly: true,
             secure: false,
@@ -109,7 +115,7 @@ export class UsersService implements UserServiceInterface {
         );
     }
 
-    async emailVerification(emailverificationDto: EmailVerificationDto): Promise<boolean> {
+    async emailVerification(emailverificationDto: EmailVerificationDto): Promise<User | false | null> {
         const credentials = await this.userRepository.findOne({
             where: {
                 email: emailverificationDto.email,
@@ -128,7 +134,9 @@ export class UsersService implements UserServiceInterface {
             isEmailVerified: true,
         });
 
-        return true;
+        return await this.userRepository.findOne({
+            where: { id: credentials.id }
+        });
     }
 
     async updateUser(target: any, data: Record<string, any>): Promise<void> {
