@@ -1,4 +1,4 @@
-import { MiddlewareConsumer, Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { AppController } from './app/controller/app.controller';
 import { AppService } from './app/service/app.service';
 import { ConfigModule } from '@nestjs/config';
@@ -12,6 +12,7 @@ import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import { ProductModule } from './modules/product/product.module';
 import { ResponseModule } from './modules/response/response.module';
+import { AuthenticationMiddleware } from './middleware/authentication/authentication.middleware';
 
 @Module({
   imports: [
@@ -42,5 +43,12 @@ import { ResponseModule } from './modules/response/response.module';
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
     consumer.apply(JsonOnlyValidationMiddleware).forRoutes('api/*');
+    consumer.apply(AuthenticationMiddleware)
+      .exclude(
+        { path: 'api/v1/auth/register', method: RequestMethod.POST },
+        { path: 'api/v1/auth/login', method: RequestMethod.POST },
+        { path: 'api/v1/auth/email-verification', method: RequestMethod.POST },
+      )
+      .forRoutes('api/*');
   }
 }
