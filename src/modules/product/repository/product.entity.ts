@@ -1,4 +1,4 @@
-import { Column, Entity, Index, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { ProductCategoryEnum } from "../enum/product.enum";
 
 @Entity()
@@ -15,9 +15,10 @@ export class Product {
 
     @Column({
         type: "enum",
+        enum: ProductCategoryEnum,
         default: ProductCategoryEnum.OTHER
     })
-    productCategory: string;
+    productCategory: ProductCategoryEnum;
 
     @Column({
         type: "bigint",
@@ -31,4 +32,21 @@ export class Product {
         length: 255
     })
     productImage: string;
+
+    @Column({
+        type: "varchar",
+        default: null,
+        length: 255
+    })
+    productDescription: string;
+
+    @CreateDateColumn({
+        name: 'createdAt'
+    })
+    createdAt: Date;
+
+    @UpdateDateColumn({
+        name: 'updatedAt'
+    })
+    updatedAt: Date;
 }
