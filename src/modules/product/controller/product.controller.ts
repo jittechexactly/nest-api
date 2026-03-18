@@ -1,16 +1,19 @@
-import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards } from '@nestjs/common';
 import { CreateProductDto, UpdateProductDto } from '../dto/product.dto';
 import { ResponseDto } from 'src/modules/response/dto/response.dto';
 import { ProductService } from '../service/product.service';
 import { Product } from '../interfaces/product.interface';
 import { Roles } from 'src/modules/auth/decorators/role.decorator';
 import { UserRoleEnum } from 'src/modules/users/enum/userRole.enum';
+import { AuthGuard } from '@nestjs/passport';
+import { RolesGuard } from 'src/guards/roles.guard';
 
 @Controller('api/v1/product')
 export class ProductController implements Product {
     constructor(private readonly productService: ProductService){}
 
     @Post('add')
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
     @Roles(UserRoleEnum.ADMIN)
     async saveProduct(@Body() createProductDto: CreateProductDto): Promise<ResponseDto> {
         return await this.productService.saveProduct(createProductDto);

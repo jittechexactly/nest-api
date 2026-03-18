@@ -13,9 +13,12 @@ import { join } from 'path';
 import { ProductModule } from './modules/product/product.module';
 import { ResponseModule } from './modules/response/response.module';
 import { AuthenticationMiddleware } from './middleware/authentication/authentication.middleware';
+import { PassportModule } from '@nestjs/passport';
+import { JwtStrategy } from './strategys/jwt.strategy';
 
 @Module({
   imports: [
+    PassportModule.register({ defaultStrategy: 'jwt' }),
     ConfigModule.forRoot(),
     AuthModule,
     UsersModule,
@@ -38,7 +41,7 @@ import { AuthenticationMiddleware } from './middleware/authentication/authentica
     ResponseModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, JwtStrategy],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {
