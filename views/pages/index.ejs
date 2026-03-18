@@ -1,37 +1,16 @@
-<%- include('../partials/addons/all-links', { title: 'Home' }) %>
+<!DOCTYPE html>
+<html lang="en">
 
-    <body>
-        <%- include('../partials/header') %>
-            <main class="index_main">
-                <section class="h-screen p-5 container mx-auto">
-                    <div class="h-full flex flex-row w-full main-view-slider">
-                        <% data.forEach(item=> { %>
-                            <div class="h-full w-full flex justify-center items-center pb-5">
-                                <div
-                                    class="flex flex-col md:p-0 p-5 items-center border border-gray-100 bg-neutral-primary-soft rounded overflow-hidden shadow-md w-full bg-[url(<%= item.img_url %>)] md:h-100 h-screen bg-center bg-cover">
-                                    <div class="flex flex-col md:p-4 w-full">
-                                        <h5 class="mb-2 text-2xl font-bold tracking-tight text-heading">
-                                            <%= item.productName %>
-                                        </h5>
-                                        <p class="mb-6 text-body">
-                                            <%= item.description %>
-                                        </p>
-                                        <div>
-                                            <a href="/products/view/<%= item.id %>"
-                                                class="inline-flex cursor-pointer items-center w-auto text-body bg-neutral-secondary-medium box-border border border-default-medium hover:bg-neutral-tertiary-medium hover:text-heading focus:ring-4 focus:ring-neutral-tertiary shadow-xs font-medium leading-5 rounded-base text-sm px-4 py-2.5 focus:outline-none">
-                                                View More<i class="ri-arrow-right-up-long-line ms-2"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <% }) %>
-                    </div>
-                </section>
-            </main>
-            <%- include('../partials/addons/common-js') %>
-                <%- include('../partials/addons/js/index_view') %>
-                    <%- include('../partials/footer') %>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirection page</title>
+</head>
 
-    </html>
+<body style="height: 100vh; display: flex; justify-content: center; align-items: center;">
+    <a href="" style="border: 1px solid #f7f7f7f7; padding: 10px; border-radius: 5px;">
+        Go to view
+    </a>
+</body>
+
+</html>
