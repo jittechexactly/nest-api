@@ -14,7 +14,7 @@ export class ProductController implements Product {
 
     @Post('add')
     @UseGuards(AuthGuard('jwt'), RolesGuard)
-    @Roles(UserRoleEnum.ADMIN)
+    @Roles(UserRoleEnum.VENDOR, UserRoleEnum.ADMIN)
     async saveProduct(@Body() createProductDto: CreateProductDto): Promise<ResponseDto> {
         return await this.productService.saveProduct(createProductDto);
     }
@@ -30,11 +30,15 @@ export class ProductController implements Product {
     }
 
     @Put('update/:id')
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
+    @Roles(UserRoleEnum.VENDOR, UserRoleEnum.ADMIN)
     async updateProduct(@Param('id', ParseIntPipe) id: number, @Body() updateProductDto: UpdateProductDto): Promise<ResponseDto>{
         return await this.productService.updateProduct(id, updateProductDto);
     }
 
     @Delete(':id')
+    @UseGuards(AuthGuard('jwt'), RolesGuard)
+    @Roles(UserRoleEnum.VENDOR)
     async deleteProduct(@Param('id', ParseIntPipe) id: number): Promise<ResponseDto>{
         return await this.productService.deleteProduct(id);
     }
