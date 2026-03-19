@@ -56,12 +56,12 @@ export class ProductService {
 
         Object.assign(product.data, updateProductDto);
 
-        await this.productRepository.save(product.data);
+        const updatedProduct = await this.productRepository.save(product.data);
 
         return this.responseService.response(
             true,
             "Product updated successfully!",
-            product
+            updatedProduct
         );
     }
 
