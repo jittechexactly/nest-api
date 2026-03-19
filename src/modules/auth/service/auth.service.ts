@@ -7,12 +7,13 @@ import { Resend } from 'resend';
 import { EmailVerificationDto } from '../dto/emailverification.dto';
 import { ResponseService } from 'src/modules/response/service/response.service';
 import { ResponseDto } from 'src/modules/response/dto/response.dto';
-import { Response } from 'express';
+import { Request, Response } from 'express';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService implements IAuthService {
     private resend = new Resend(process.env.RESEND_API_KEY);
-    constructor(private userService: UsersService, private readonly responseService: ResponseService) { }
+    constructor(private userService: UsersService, private readonly responseService: ResponseService, private readonly jwtService: JwtService) { }
 
     async register(registerDto: RegisterDto): Promise<ResponseDto> {
         const user = await this.userService.createUser(registerDto);
@@ -56,4 +57,27 @@ export class AuthService implements IAuthService {
         }
 
     }
+
+    async getAuthToken(request: Request, res: Response): Promise<ResponseDto> {
+        const token = request.cookies?.refresh_token;
+        if (!token) {
+            throw new HttpException(
+                this.responseService.response(false, "Login expired", {}),
+                HttpStatus.UNAUTHORIZED
+            );
+        }
+
+        const user = this.jwtService.verify(token, {
+            secret: process.env.JWT_SECRET,
+        });
+
+        return await this.userService.accessTokenGenerate({
+            id: user.sub,
+            email: user.email,
+            role: user.role
+        }, res);
+
+    }
+
+
 }

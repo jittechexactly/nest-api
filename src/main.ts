@@ -17,6 +17,7 @@ async function bootstrap() {
 
   app.setBaseViewsDir(join(__dirname, '..', 'views'));
   app.setViewEngine('ejs');
+  app.use(require('cookie-parser')());
 
   await app.listen(process.env.PORT ?? 3000);
 }

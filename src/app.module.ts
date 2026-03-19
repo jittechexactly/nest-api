@@ -51,6 +51,7 @@ export class AppModule {
         { path: 'api/v1/auth/register', method: RequestMethod.POST },
         { path: 'api/v1/auth/login', method: RequestMethod.POST },
         { path: 'api/v1/auth/email-verification', method: RequestMethod.POST },
+        { path: 'api/v1/auth/auth-token', method: RequestMethod.POST }
       )
       .forRoutes('api/*');
   }
