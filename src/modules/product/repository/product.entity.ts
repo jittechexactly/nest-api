@@ -40,6 +40,12 @@ export class Product {
     })
     productDescription: string;
 
+    @Column({
+        type: "int",
+        default: 0
+    })
+    price: number;
+
     @CreateDateColumn({
         name: 'createdAt'
     })

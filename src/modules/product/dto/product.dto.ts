@@ -30,11 +30,11 @@ export class CreateProductDto {
 export class UpdateProductDto {
     @IsString()
     @IsOptional()
-    name?: string;
+    productName?: string;
 
     @IsString()
     @IsOptional()
-    description?: string;
+    productDescription?: string;
 
     @IsNumber()
     @IsPositive()
@@ -48,9 +48,9 @@ export class UpdateProductDto {
 
     @IsString()
     @IsOptional()
-    category?: string;
+    productCategory?: string;
 
     @IsUrl()
     @IsOptional()
-    imageUrl?: string;
+    productImage?: string;
 }
