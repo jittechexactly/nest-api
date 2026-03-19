@@ -21,7 +21,8 @@ export class ProductService {
             productCategory: createProductDto.category,
             stock: createProductDto.stock,
             productImage: createProductDto.imageUrl,
-            productDescription: createProductDto.description
+            productDescription: createProductDto.description,
+            price: createProductDto.price
         });
 
         const savedProduct = await this.productRepository.save(newProduct);
