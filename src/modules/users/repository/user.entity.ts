@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, Index, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, Index, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { UserRoleEnum } from "../enum/userRole.enum";
+import { Wishlist } from "src/modules/wishlist/repository/wishlist.entity";
 
 @Entity()
 export class User {
@@ -68,6 +69,8 @@ export class User {
         default: UserRoleEnum.USER,
     })
     role: UserRoleEnum;
+
+   
 
     @CreateDateColumn({
         name: 'createdAt'
