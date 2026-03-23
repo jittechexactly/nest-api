@@ -10,7 +10,7 @@ import { RolesGuard } from 'src/guards/roles.guard';
 
 @Controller('api/v1/product')
 export class ProductController implements Product {
-    constructor(private readonly productService: ProductService){}
+    constructor(private readonly productService: ProductService) { }
 
     @Post('add')
     @UseGuards(AuthGuard('jwt'), RolesGuard)
@@ -20,26 +20,32 @@ export class ProductController implements Product {
     }
 
     @Get('all')
-    async allProducts(): Promise<ResponseDto>{
+    async allProducts(): Promise<ResponseDto> {
         return await this.productService.allProducts();
     }
 
     @Get(':id')
-    async getProduct(@Param('id', ParseIntPipe) id: number): Promise<ResponseDto>{
+    async getProduct(@Param('id', ParseIntPipe) id: number): Promise<ResponseDto> {
         return await this.productService.fetchProductById(id);
     }
 
     @Put('update/:id')
     @UseGuards(AuthGuard('jwt'), RolesGuard)
     @Roles(UserRoleEnum.VENDOR, UserRoleEnum.ADMIN)
-    async updateProduct(@Param('id', ParseIntPipe) id: number, @Body() updateProductDto: UpdateProductDto): Promise<ResponseDto>{
+    async updateProduct(@Param('id', ParseIntPipe) id: number, @Body() updateProductDto: UpdateProductDto): Promise<ResponseDto> {
         return await this.productService.updateProduct(id, updateProductDto);
     }
 
     @Delete(':id')
     @UseGuards(AuthGuard('jwt'), RolesGuard)
     @Roles(UserRoleEnum.VENDOR)
-    async deleteProduct(@Param('id', ParseIntPipe) id: number): Promise<ResponseDto>{
+    async deleteProduct(@Param('id', ParseIntPipe) id: number): Promise<ResponseDto> {
         return await this.productService.deleteProduct(id);
+    }
+
+    @Get('add-wishlist/:id')
+    @UseGuards(AuthGuard('jwt'))
+    addWishList(@Param('id', ParseIntPipe) id: number): any {
+        return this.productService.addTowishlist(id);
     }
 }

@@ -15,6 +15,7 @@ import { ResponseModule } from './modules/response/response.module';
 import { AuthenticationMiddleware } from './middleware/authentication/authentication.middleware';
 import { PassportModule } from '@nestjs/passport';
 import { JwtStrategy } from './strategys/jwt.strategy';
+import { WishlistModule } from './modules/wishlist/wishlist.module';
 
 @Module({
   imports: [
@@ -38,7 +39,8 @@ import { JwtStrategy } from './strategys/jwt.strategy';
       serveRoot: '/public',
     }),
     ProductModule,
-    ResponseModule
+    ResponseModule,
+    WishlistModule
   ],
   controllers: [AppController],
   providers: [AppService, JwtStrategy],

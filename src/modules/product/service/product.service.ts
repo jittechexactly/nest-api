@@ -91,4 +91,8 @@ export class ProductService {
             {}
         );
     }
+
+    async addTowishlist(id: number): Promise<any> {
+        const product = this.fetchProductById(id);
+    }
 }
