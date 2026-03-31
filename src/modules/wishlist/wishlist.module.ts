@@ -1,12 +1,13 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { WishlistService } from './service/wishlist.service';
 import { UsersModule } from '../users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Wishlist } from './repository/wishlist.entity';
 import { ResponseModule } from '../response/response.module';
+import { ProductModule } from '../product/product.module';
 
 @Module({
   providers: [WishlistService],
-  imports: [UsersModule, TypeOrmModule.forFeature([Wishlist]), ResponseModule]
+  imports: [UsersModule, TypeOrmModule.forFeature([Wishlist]), ResponseModule, forwardRef(() => ProductModule)]
 })
 export class WishlistModule {}
