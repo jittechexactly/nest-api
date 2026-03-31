@@ -9,6 +9,7 @@ import { WishlistModule } from '../wishlist/wishlist.module';
 @Module({
   imports: [TypeOrmModule.forFeature([Product]),ResponseModule, WishlistModule],
   controllers: [ProductController],
-  providers: [ProductService]
+  providers: [ProductService],
+  exports: [ProductModule]
 })
 export class ProductModule {}

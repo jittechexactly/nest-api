@@ -70,7 +70,8 @@ export class User {
     })
     role: UserRoleEnum;
 
-   
+    @OneToMany(() => Wishlist, (wishlist) => wishlist.user)
+    wishlists: Wishlist[];
 
     @CreateDateColumn({
         name: 'createdAt'
